@@ -2,7 +2,7 @@ backend:
   name: github
   repo: haxlock/myblog # Path to your Github/Gitlab repository
   branch: main # Branch to update
-  base_url: https://myblog-nu-amber.vercel.app
+  base_url: https://blog.haxlock.top
 
 
 # These lines should *not* be indented
