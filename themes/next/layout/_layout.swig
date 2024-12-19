@@ -42,7 +42,6 @@
       </div>
     </footer>
   </div>
-
   {{ partial('_scripts/index.swig', {}, {cache: theme.cache.enable}) }}
   {{ partial('_third-party/index.swig', {}, {cache: theme.cache.enable}) }}
 

@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
+title: Haxlock's blog
+subtitle: 'Life is a coding,I with debug it'
+description: 'Blog for me and my loves'
 keywords:
-author: John Doe
-language: en
+author: Haxlock
+language: zh-CN
 timezone: ''
 
 # URL
@@ -103,3 +103,30 @@ theme: next
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+
+# hexo-generator-searchdb
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10
+
+# hexo-symbols-count-time
+symbols_count_time:
+  symbols: true
+  time: true
+  total_symbols: true
+  total_time: true
+  exclude_codeblock: false
+  awl: 2    
+  wpm: 275
+  suffix: "mins."
+
+# feed RSS
+# Dependencies: https://github.com/hexojs/hexo-generator-feed
+# feed:
+#   type: atom
+#   path: atom.xml
+#   limit: 20
+#   hub:
+#   content:
