@@ -12,6 +12,7 @@
     "version": "7.3.0"
   },
   "dependencies": {
+    "@fancyapps/ui": "^5.0.36",
     "canvas-nest.js": "^2.0.4",
     "hexo": "^7.3.0",
     "hexo-deployer-git": "^4.0.0",
@@ -27,6 +28,7 @@
     "hexo-server": "^3.0.0",
     "hexo-symbols-count-time": "^0.7.1",
     "hexo-theme-landscape": "^1.0.0",
+    "medium-zoom": "^1.1.0",
     "simple-oauth2": "^5.0.0"
   },
   "devDependencies": {
