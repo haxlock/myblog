@@ -19,6 +19,15 @@
 ]]></content>
   </entry>
   <entry>
+    <title>关于在实验室服务器上部署kms服务以及相关使用</title>
+    <url>/2024/12/22/53/</url>
+    <content><![CDATA[<h1 id="前提概要"><a href="#前提概要" class="headerlink" title="前提概要"></a>前提概要</h1><h2 id="kms介绍"><a href="#kms介绍" class="headerlink" title="kms介绍"></a>kms介绍</h2><p>kms 指的是在windows Vista之后的产品中出现的一种新型产品激活机制，一开始的主要目的是用于Microsoft能够更好的遏制非法软件的授权行为。</p>
+]]></content>
+      <tags>
+        <tag>服务器 运维</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>这是本博客的第一篇文章</title>
     <url>/2024/12/21/46/</url>
     <content><![CDATA[<h1 id="有感而发"><a href="#有感而发" class="headerlink" title="有感而发"></a>有感而发</h1><hr>
