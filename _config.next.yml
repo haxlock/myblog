@@ -22,17 +22,20 @@ minify: true
 # Define custom file paths.
 # Create your custom files in site directory `source/_data` and uncomment needed files below.
 custom_file_path:
-  #head: source/_data/head.swig
+  head: source/_data/head.swig
   #header: source/_data/header.swig
-  #sidebar: source/_data/sidebar.swig
+  sidebar: source/_data/sidebar.swig
   #postMeta: source/_data/post-meta.swig
   #postBodyEnd: source/_data/post-body-end.swig
-  #footer: source/_data/footer.swig
-  footer: source/_data/footer.swig
+  # 添加自定义内容于页脚
+  footer: source/_data/footer.swig 
   #bodyEnd: source/_data/body-end.swig
   #variable: source/_data/variables.styl
   #mixin: source/_data/mixins.styl
-  #style: source/_data/styles.styl
+  #自定义css
+  style: source/_data/styles.styl 
+  #文本结束提示
+  post-body-end: source/_data/post-body-end.swig
 
 
 # ---------------------------------------------------------------
@@ -311,12 +314,12 @@ follow_me:
 # Related popular posts
 # Dependencies: https://github.com/tea3/hexo-related-popular-posts
 related_posts:
-  enable: false
+  enable: true
   title: # Custom header, leave empty to use the default one
   display_in_home: false
   params:
     maxCount: 5
-    #PPMixingRate: 0.0
+    PPMixingRate: 0.5
     #isDate: false
     #isImage: false
     #isExcerpt: false
@@ -397,13 +400,13 @@ back2top:
   # Back to top in sidebar.
   sidebar: false
   # Scroll percent label in b2t button.
-  scrollpercent: false
+  scrollpercent: true
 
 # Reading progress bar
 reading_progress:
-  enable: false
+  enable: true
   # Available values: top | bottom
-  position: top
+  position: bottom
   color: "#37c6c0"
   height: 3px
 
@@ -783,6 +786,12 @@ algolia_search:
     hits_empty: "We didn't find any results for the search: ${query}"
     hits_stats: "${hits} results found in ${time} ms"
 
+auto_excerpt:
+  enable: true
+  length: 100
+
+
+
 # Local Search
 # Dependencies: https://github.com/theme-next/hexo-generator-searchdb
 local_search:
@@ -1037,18 +1046,6 @@ vendors:
   # Internal version: 1.0.0
   # canvas_ribbon: //cdn.jsdelivr.net/gh/theme-next/theme-next-canvas-ribbon@1/canvas-ribbon.js
   canvas_ribbon:
-
-  # 上下滑动进度条 
-  moon_menu:
-  back2top:
-    enable: true
-    icon: fas fa-chevron-up
-    order: -1
-  back2bottom:
-    enable: true
-    icon: fas fa-chevron-down
-    order: -2
-
 
 # Assets
 css: css

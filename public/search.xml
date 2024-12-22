@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>这是一篇测试文章</title>
-    <url>/2024/12/18/%E8%BF%99%E6%98%AF%E4%B8%80%E7%AF%87%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/</url>
-    <content><![CDATA[<p>t﻿his page is in order to test</p>
-<p>o﻿kok,thanks</p>
-]]></content>
-  </entry>
-  <entry>
     <title>thanks everyone</title>
-    <url>/2024/12/18/hello-world/</url>
+    <url>/2024/12/18/14/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
 <h1 id="1111"><a href="#1111" class="headerlink" title="1111"></a>1111</h1><h3 id=""><a href="#" class="headerlink" title=""></a></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -23,6 +16,25 @@
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+  </entry>
+  <entry>
+    <title>这是本博客的第一篇文章</title>
+    <url>/2024/12/21/46/</url>
+    <content><![CDATA[<h1 id="有感而发"><a href="#有感而发" class="headerlink" title="有感而发"></a>有感而发</h1><hr>
+<p>这是本博客的第一篇文章，也同时是我人生中的第一次搭建博客，第一次在我自己博客上写东西。</p>
+<h2 id="本博客搭建的原因"><a href="#本博客搭建的原因" class="headerlink" title="本博客搭建的原因"></a>本博客搭建的原因</h2><p>本人是一所<strong>二本院校</strong>的<strong>计算机专业</strong>的学生，专业水平属于是<strong>菜鸡中的菜鸡</strong>。见过很多大佬自己搭建的各种漂亮的博客，各种炫酷的界面，我都感觉十分羡慕，因此课余时间我也熬夜研究<strong>个人博客</strong>的搭建方式。</p>
+<p>一开始想着自己用自己的服务器来当作本博客的后台服务器，但没曾想，公网ip以及备案信息成为了拦截我写博客的一座大山。</p>
+<p>之后我苦思冥想，通过翻阅CSDN和github平台，看到了原来不需要后台也可以搭建自己的个人博客，甚至例如 <strong>github，gitlab,gitee(现在已经不提供)</strong> 等平台可以提供免费的静态网站托管服务，还有类似于 <strong>vercel,netflix</strong> 等平台可以提供免费的静态网页部署服务，让我们coding菜鸟也可以轻松部署自己的静态网站。更有 <strong>hexo,hugo</strong> 等个人博客框架，直接一件构建并部署自己的博客，不需要自己写一点代码，就可以轻松部署个人博客。</p>
+<p><strong>尽管如此</strong> ，部署个人博客的道路依旧艰辛。</p>
+<p>对于一个从未接触过博客部署的小白来说，太多不懂的东西让我依然纠结，花大把时间去查资料，看文档。</p>
+<p>我个人对于前端的学习仅限于做过一个vue的项目和一个微信小程序的项目。对前端的理解还是尚为浅显。当接触自己从未接触过的技术以及功能模块的时候，眼花缭乱的文档教程让我迷茫，但是为了做成我自己的个人博客，我依旧将自己投入进去，跟着各种教程文档一步步做，错了就一步步纠正。我总相信我自己可以做到。</p>
+<h2 id="本博客采用的技术栈"><a href="#本博客采用的技术栈" class="headerlink" title="本博客采用的技术栈"></a>本博客采用的技术栈</h2><p>博客框架： <strong>hexo</strong></p>
+<p>主题： <strong>next</strong></p>
+<p>部署平台： <strong>vercel</strong></p>
+<p>以及在线编写模块： <strong>netflix cms</strong> (个人认为并不好用)</p>
+<hr>
+<p>countinue…</p>
 ]]></content>
   </entry>
 </search>
