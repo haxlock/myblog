@@ -1,0 +1,41 @@
+/* 隐藏顶部线条 */
+.headband {
+  display: none;
+}
+
+/* 顶部边距 */
+.header,
+.main-inner {
+  margin-top: 10px;
+
+  +mobile() {
+    margin-top: 0;
+  }
+}
+
+/* 选中字符颜色 */
+// ::selection {
+//   background: highlight;
+//   color: highlighttext;
+// }
+
+/* 站点标题背景 */
+.site-brand-container {
+  background: url($site-brand-bg-url);
+  background-position: 70% 20%;
+  background-size: cover;
+}
+
+/* 侧边圆角 */
+header.header, //顶部标题
+.sidebar-inner { //侧边头像
+  border-radius: $myradius;
+}
+
+.site-brand-container {
+  border-radius: $myradius $myradius 0 0;
+
+  +mobile() {
+    border-radius: 0 0 $myradius $myradius;
+  }
+}
