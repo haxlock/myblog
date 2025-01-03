@@ -1,17 +1,9 @@
 {
     "builds": [
       {
-<<<<<<< HEAD
         "src": "index.js",
         "use": "@vercel/node"
       }
     ]
-=======
-        "src": "package.json",
-        "use": "@vercel/node"
-      }
-    ],
-    "outputDirectory": "public"
->>>>>>> 1bb61852abac22a60f3585ae99873cdea94f92f5
   }
   
