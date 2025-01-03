@@ -103,3 +103,12 @@ theme: next
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: ''
+
+# 添加必要的插件配置
+plugins:
+  - hexo-generator-index
+  - hexo-generator-archive
+  - hexo-generator-category
+  - hexo-generator-tag
+  - hexo-renderer-marked
+  - hexo-renderer-stylus
