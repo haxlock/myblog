@@ -375,7 +375,7 @@ codeblock:
 back2top:
   enable: true
   # 侧边栏中的返回顶部
-  sidebar: false
+  sidebar: true
   # b2t 按钮中的滚动百分比标签
   scrollpercent: true
 
