@@ -679,8 +679,8 @@ comments:
 # Disqus
 # 更多信息：https://disqus.com
 disqus:
-  enable: false
-  shortname:
+  enable: true
+  shortname: haxlock
   count: true
 
 # DisqusJS
@@ -712,26 +712,26 @@ livere_uid:
 # 更多信息：https://gitalk.github.io
 gitalk:
   enable: false
-  github_id: # GitHub 仓库所有者
-  repo: # 存储问题的仓库名称
-  client_id: # GitHub 应用程序客户端 ID
-  client_secret: # GitHub 应用程序客户端密钥
-  admin_user: # GitHub 仓库所有者和协作者，只有这些人才能初始化 gitHub 问题
+  github_id: haxlock # GitHub 仓库所有者
+  repo: https://github.com/haxlock/myblog/issues/6 # 存储问题的仓库名称
+  client_id: haxlock5205@gmail.com # GitHub 应用程序客户端 ID
+  client_secret: Ly2024jy! # GitHub 应用程序客户端密钥
+  admin_user: haxlock # GitHub 仓库所有者和协作者，只有这些人才能初始化 gitHub 问题
   distraction_free_mode: true # 类似 Facebook 的无干扰模式
   # 当官方代理不可用时，您可以更改为您自己的代理地址
   proxy: https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token # 这是官方代理地址
   # Gitalk 的显示语言取决于用户的浏览器或系统环境
   # 如果您希望访问您网站的每个人看到统一的语言，您可以设置一个强制语言值
   # 可用值：en | es-ES | fr | ru | zh-CN | zh-TW
-  language:
+  language: zh-CN
 
 # Utterances
 # 更多信息：https://utteranc.es
 utterances:
   enable: false
-  repo: user-name/repo-name # Github 仓库所有者和名称
+  repo: haxlock/myblog # Github 仓库所有者和名称
   # 可用值：pathname | url | title | og:title
-  issue_term: pathname
+  issue_term: https://github.com/haxlock/myblog/issues/6
   # 可用值：github-light | github-dark | preferred-color-scheme | github-dark-orange | icy-dark | dark-blue | photon-dark | boxy-light
   theme: github-light
   
