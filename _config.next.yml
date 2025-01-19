@@ -139,9 +139,9 @@ sidebar:
 # 侧边栏头像
 avatar:
   # 替换默认图片并在这里设置 URL。
-  url: #/images/avatar.gif
+  url: /resources/img/avatar.gif
   # 如果为 true，则头像将显示为圆形。
-  rounded: false
+  rounded: true
   # 如果为 true，则头像将随着光标旋转。
   rotated: false
 
