@@ -153,8 +153,8 @@ site_state: true
 # 键是最终用户看到的链接标签。
 # 值在 `||` 分隔符之前是目标永久链接，值在 `||` 分隔符之后是 Font Awesome 图标名称。
 social:
-  #GitHub: https://github.com/yourname || fab fa-github
-  #E-Mail: mailto:yourname@gmail.com || fa fa-envelope
+  GitHub: https://github.com/haxlock || fab fa-github
+  E-Mail: haxlock5205@163.com || fa fa-envelope
   #Weibo: https://weibo.com/yourname || fab fa-weibo
   #Twitter: https://twitter.com/yourname || fab fa-twitter
   #FB Page: https://www.facebook.com/yourname || fab fa-facebook
