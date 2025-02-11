@@ -46,8 +46,6 @@ categories:
 
 之后可能会重启计算机，此时点击确认重启。
 
-
-
 - 重启结束后，进入微软商店，搜索ubuntu
 
 ![](http://m401a.haxlock.top:3003/uploads/eb3275cc-5e9c-4299-a364-0e5d0ccb49cd.jpg)
@@ -56,13 +54,9 @@ categories:
 
 - 等待安装完成，此时在搜索框内搜索ubuntu，点击打开即可进入ubuntu终端界面，此时这个系统并非虚拟化。而是实打实本地直连的操作系统。后续配置也同正常ubuntu一样即可。非常的便捷方便
 
-
-
 ## win内ubuntu终端优化
 
 由于原始的直接安装的ubuntu页面不太好用，页面不美观等问题，这边有一个方法用于美化ubuntu页面。   
-
-
 
 ### 在微软商店下载windows Terminal
 
@@ -73,7 +67,5 @@ categories:
 ![](http://m401a.haxlock.top:3003/uploads/ccfd3796-8dee-4783-ae3a-a4f2486a6c59.jpg)
 
 这样就可以愉快的使用ubuntu进行操作了(yeah!)
-
-
 
 能看到这的小伙伴我想以及超越了99%的人了，加油吧骚年！
