@@ -1,3 +1,13 @@
+---
+title: 关于linux基本命令以及作用的概述和汇总学习
+date: 2025/2/10 11:25:00
+tags: linux
+categories: 
+- [服务器]
+- [后端]
+- [linux]
+---
+
 # 这是一篇关于linux基本命令以及作用的概述和汇总学习
 
 ## ls
@@ -7,7 +17,7 @@
 ls命令用于列出目录下的内容
 
 例如输出结果可能如下：
-
+<!-- more -->
 ```bash
 haxlock@armbian:~$ ls
 back_data  DDNS-go  ha  server  test.txt
