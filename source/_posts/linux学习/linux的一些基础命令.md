@@ -17,7 +17,9 @@ categories:
 ls命令用于列出目录下的内容
 
 例如输出结果可能如下：
+
 <!-- more -->
+
 ```bash
 haxlock@armbian:~$ ls
 back_data  DDNS-go  ha  server  test.txt
@@ -677,6 +679,295 @@ drwxrwxr-x
 
 - r-x最后三个表示洽谈用户权限，有r无w有x
 
+r代表读权限，w代表可写，x代表可执行(excute)
 
+
+
+## chmod
+
+可以通过chmod命令，修改，文件、文件夹的权限信息
+
+> 只有文件、文件夹的所属用户或者root用户可以修改
+
+**语法： chmod [-R] 权限 权限 文件或者文件夹**
+
+- -R 对文件夹内全部内容应用同样的擦欧总
+
+- chmod u=rwx,g=rx,o=x hello.txt 把权限修改为rwxr-x--x
+
+- - 其中u代表user所属先前，g表示group组权限，o表示其他用户权限
+
+- chmod -r u=rwx,g=rx,o=x test 将问及那家tst以及文件夹内全部内容权限设置为wrxr-r--x
+
+
+
+权限也可以用数字来替代
+
+用三位数字表示 **r为4,w为2,x为1**
+
+- 0:无任何权限 ---
+
+- 1:仅x，--x
+
+- 2:仅w, -w-
+
+- 3:wx, -wx
+
+- 4:仅，r
+
+- 5:r-x,r和x权限, r-x
+
+- 6:有r和w权限，rw-
+
+- 7:全部权限,rwx
+
+**简单说就是二进制的和**
+
+
+
+## chown
+
+修改文件、文件夹所属用户和用户组
+
+**此命令只可root执行**
+
+语法：`chown [-R] [用户][:][用户组] 文件或者文件夹`
+
+
+
+## linux各种实用命令
+
+### 基本
+
+ctrl+c强制退出停止命令运行
+
+ctrl+d退出当前登录
+
+history 查看历史输入过的命令
+
+!命令前缀，自动执行上一次匹配前缀的命令
+
+### 历史命令搜索：
+
+- 通过ctrl+r，输入内容去匹配历史命令
+
+- 键盘左右键，可以得到此命令（不执行）
+
+- ctrl+a跳到命令开头,ctrl+e跳到命令结尾，ctril+左，向左跳一个单词，ctrl+右，向右跳一个单词
+
+- ctrl+l清空终端内容,clear也可以得到同样的效果
+
+### ubuntu-apt命令
+
+```bash
+sudo apt update
+#安装这个包
+sudo apt install wget
+# 寻找这个应用包
+sudo apt search wget
+#移除这个包
+sudo apt remove wget
+```
+
+### systemctl命令
+
+systemctl控制软件、服务的启停，开机自启
+
+- systemctl start 开启服务
+
+- systemctl stop 关闭服务
+
+- systemctl enable 开机自启动
+
+- systemctl status 查看状态
+
+## 软链接
+
+简单来说类似于windows中的快捷方式
+
+创建一个链接可以指向一个文件、文件夹
+
+语法： `ln -s 参数1 参数2`
+
+```bash
+haxlock@ubuntu:~$ sudo ln -s /etc/apt ~/apt
+haxlock@ubuntu:~$ ls -l
+total 12
+drwxr-xr-x 3 root    root    4096 Feb 11 14:33 1panel-v1.10.24-lts-linux-amd64
+lrwxrwxrwx 1 root    root       8 Feb 14 08:16 apt -> /etc/apt
+-rw-rw-r-- 1 haxlock haxlock 3586 Jun 29  2020 bt-uninstall.sh
+drwxrwxr-x 2 root    root    4096 Feb 14 05:35 test
+haxlock@ubuntu:~$ cd apt
+haxlock@ubuntu:~/apt$ ls
+apt.conf.d   keyrings       preferences.d.save  sources.list.btbackup     sources.list.d  trusted.gpg.d
+auth.conf.d  preferences.d  sources.list        sources.list.curtin.orig  trusted.gpg
+haxlock@ubuntu:~/apt$ cd ..
+haxlock@ubuntu:~$ ls
+1panel-v1.10.24-lts-linux-amd64  apt  bt-uninstall.sh  test
+haxlock@ubuntu:~$ 
+
+```
+
+## date 查看时间
+
+格式`date [-d] [+格式化字符串]`
+
+```bash
+Fri Feb 14 08:17:09 AM UTC 2025
+haxlock@ubuntu:~$ date
+Fri Feb 14 08:18:34 AM UTC 2025
+haxlock@ubuntu:~$ date +%Y-%m-%d
+2025-02-14
+haxlock@ubuntu:~$ date "+%Y-%m-%d %H:%M:%S"
+2025-02-14 08:20:32
+```
+
+- %Y年
+
+- y 年份后两位数字
+
+- m 月份
+
+- d 天
+
+- H 小时（24）
+
+- M 分钟
+
+- S 秒
+
+- s 自1970-01-01至今的时间
+
+```bash
+#查看明天的时间
+haxlock@ubuntu:~$ date -d "+1 day"
+Sat Feb 15 08:26:36 AM UTC 2025
+
+#去年
+haxlock@ubuntu:~$ date -d "-1 year"
+Wed Feb 14 08:28:10 AM UTC 2024haxlock@ubuntu:~$ date -d "-1 year"
+Wed Feb 14 08:28:10 AM UTC 2024
+
+```
+
+
+
+### 修改linux时区
+
+#### 手动修改
+
+```bash
+haxlock@ubuntu:~$ sudo rm -f /etc/localtime
+haxlock@ubuntu:~$ sudo ln -s -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime 
+haxlock@ubuntu:~$ date
+Fri Feb 14 04:47:51 PM CST 2025
+```
+
+#### ntp自动校准
+
+```bash
+sudo systemctl start ntp
+```
+
+#### ntp手动校准
+
+```bash
+ntpdate -u ntp.aliyun.com
+```
+
+指向一个ntp服务器即可
+
+## 查看ip地址
+
+```bash
+ifconfig
+```
+
+主机名
+
+```bash
+haxlock@ubuntu:~$ hostname
+ubuntu
+```
+
+修改主机名
+
+```bash
+hostnamectl set-hostname [需要修改的主机名]
+```
+
+配置主机名映射
+
+先查看本机记录
+
+- Windows看 C:\Windows\System32\drivers\etc\hosts
+
+- Linux看： /etc/hosts
+
+- 配置文件＋‘ip+主机名即可’
+
+再去联网去DNS服务器询问
+
+## 虚拟机静态ip配置
+
+- 首先在Vmware配置好网卡设置
+
+- 进入/etc/sysconfig/network-scripts/ifcfg-ens33文件，修改内容
+
+- 将BOOTPROTO后面DHCP改为static
+
+- 末尾加入如下内容：
+  
+  ```bash
+  IPADDR="192.168.88.130" #IP地址
+  NETMASK="255.255.255.0" #子网掩码
+  GATEWAY="192.168.88.2" #网关与VMware设置一致
+  DNS1 ="DNS为网关即可"
+  ```
+
+## 网络传输
+
+### ping
+
+`ping [-c num] ip`
+
+```bash
+haxlock@ubuntu:~$ ping -c 5 www.baidu.com
+PING www.baidu.com(2409:8c20:6:1d55:0:ff:b09c:7d77 (2409:8c20:6:1d55:0:ff:b09c:7d77)) 56 data bytes
+64 bytes from 2409:8c20:6:1d55:0:ff:b09c:7d77 (2409:8c20:6:1d55:0:ff:b09c:7d77): icmp_seq=1 ttl=54 time=4.15 ms
+64 bytes from 2409:8c20:6:1d55:0:ff:b09c:7d77 (2409:8c20:6:1d55:0:ff:b09c:7d77): icmp_seq=2 ttl=54 time=4.71 ms
+64 bytes from 2409:8c20:6:1d55:0:ff:b09c:7d77 (2409:8c20:6:1d55:0:ff:b09c:7d77): icmp_seq=3 ttl=54 time=4.86 ms
+64 bytes from 2409:8c20:6:1d55:0:ff:b09c:7d77 (2409:8c20:6:1d55:0:ff:b09c:7d77): icmp_seq=4 ttl=54 time=4.59 ms
+64 bytes from 2409:8c20:6:1d55:0:ff:b09c:7d77 (2409:8c20:6:1d55:0:ff:b09c:7d77): icmp_seq=5 ttl=54 time=4.59 ms
+
+--- www.baidu.com ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 4005ms
+rtt min/avg/max/mdev = 4.152/4.582/4.862/0.237 ms
+
+```
+
+
+
+### wget
+
+非交互式文件下载器
+
+`wget [-b] url`
+
+- \-b 后台下载，日志会写道wget-log中
+
+- url下载链接
+
+
+
+### curl
+
+发起http网络请求，可用于下载文件、获取信息
+
+`curl [-o] url`
+
+- \-o 用于下载文件
+
+- url请求的地址
 
 
