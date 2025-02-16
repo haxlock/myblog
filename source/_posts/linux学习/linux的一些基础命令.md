@@ -681,8 +681,6 @@ drwxrwxr-x
 
 r代表读权限，w代表可写，x代表可执行(excute)
 
-
-
 ## chmod
 
 可以通过chmod命令，修改，文件、文件夹的权限信息
@@ -698,8 +696,6 @@ r代表读权限，w代表可写，x代表可执行(excute)
 - - 其中u代表user所属先前，g表示group组权限，o表示其他用户权限
 
 - chmod -r u=rwx,g=rx,o=x test 将问及那家tst以及文件夹内全部内容权限设置为wrxr-r--x
-
-
 
 权限也可以用数字来替代
 
@@ -723,8 +719,6 @@ r代表读权限，w代表可写，x代表可执行(excute)
 
 **简单说就是二进制的和**
 
-
-
 ## chown
 
 修改文件、文件夹所属用户和用户组
@@ -732,8 +726,6 @@ r代表读权限，w代表可写，x代表可执行(excute)
 **此命令只可root执行**
 
 语法：`chown [-R] [用户][:][用户组] 文件或者文件夹`
-
-
 
 ## linux各种实用命令
 
@@ -805,7 +797,6 @@ haxlock@ubuntu:~/apt$ cd ..
 haxlock@ubuntu:~$ ls
 1panel-v1.10.24-lts-linux-amd64  apt  bt-uninstall.sh  test
 haxlock@ubuntu:~$ 
-
 ```
 
 ## date 查看时间
@@ -847,10 +838,7 @@ Sat Feb 15 08:26:36 AM UTC 2025
 haxlock@ubuntu:~$ date -d "-1 year"
 Wed Feb 14 08:28:10 AM UTC 2024haxlock@ubuntu:~$ date -d "-1 year"
 Wed Feb 14 08:28:10 AM UTC 2024
-
 ```
-
-
 
 ### 修改linux时区
 
@@ -943,10 +931,7 @@ PING www.baidu.com(2409:8c20:6:1d55:0:ff:b09c:7d77 (2409:8c20:6:1d55:0:ff:b09c:7
 --- www.baidu.com ping statistics ---
 5 packets transmitted, 5 received, 0% packet loss, time 4005ms
 rtt min/avg/max/mdev = 4.152/4.582/4.862/0.237 ms
-
 ```
-
-
 
 ### wget
 
@@ -958,8 +943,6 @@ rtt min/avg/max/mdev = 4.152/4.582/4.862/0.237 ms
 
 - url下载链接
 
-
-
 ### curl
 
 发起http网络请求，可用于下载文件、获取信息
@@ -969,5 +952,196 @@ rtt min/avg/max/mdev = 4.152/4.582/4.862/0.237 ms
 - \-o 用于下载文件
 
 - url请求的地址
+
+## 端口
+
+设备与外界通信交流的出入口
+
+分为物理端口以及虚拟端口
+
+- 物理端口：也称为接口，如USB,RJ45网口，HDMI
+
+- 虚拟端口：指的计算机内部端口，用于操作系统与外界交互使用
+
+Linux支持65535个端口，这6万多个端口可以分为3类使用
+
+- 公认端口：1-1023,通常为一些系统内置或者知名程序预留，例如ssh的22，https的443
+
+- 注册端口：1024-49151 ，通常可以随意使用，用于松散地绑定一些程序\服务
+
+- 动态端口：49152-65535，也通常不绑定程序，而是程序对外进行网络链接时候，用于临时使用
+
+### nmap查看端口占用情况
+
+```bash
+sudo apt install nmap -y
+nmap 127.0.0.1
+```
+
+会扫描某个ip开放地端口
+
+### netstat查看指定端口占用情况
+
+netstat -anp|grep 端口号
+
+安装：
+
+```bash
+sudo apt install net-tools
+```
+
+使用：
+
+```bash
+haxlock@root:~$ netstat -anp|grep 3001
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
+tcp6       0      0 :::3001                 :::*                    LISTEN      6550/java     
+```
+
+可以看到某端口在被哪个端口占用，进程号(PID)是多少
+
+## 进程管理
+
+也可以说是**任务管理器**
+
+### 查看进程
+
+```bash
+ps [-e -f]
+```
+
+- -e 显示所有的进程
+
+- -f 以完全格式化的形式展示信息
+
+一般来说，如果ps -ef就是列出所有进程的全部信息
+
+```bash
+haxlock@root:~$ ps -f
+UID          PID    PPID  C STIME TTY          TIME CMD
+haxlock    96215   96214  0 14:49 pts/0    00:00:00 -bash
+haxlock    96232   96215 99 14:50 pts/0    00:00:00 ps -f
+
+```
+
+- UID:进程所属的用户ID
+
+- PID: 进程的进程号ID
+
+- PPID: 进程的父ID
+
+- C:此进程的CPU占用比
+
+- STIME：进程的启动时间
+
+- TTY：启动此进程的终端序号，？表示非终端启动
+
+- TIME：进程占用CPU的时间
+
+- CMD：进程的启动路径或运行路径
+
+如果想确认跟踪一个进程的信息
+
+可以：
+
+```bash
+ps -ef | grep [进程名]
+```
+
+### 关闭进程
+
+```bash
+kill [-9] 进程ID
+```
+
+其中 **-9** 代表强制关闭
+
+
+
+## top 主机状态详解
+
+```bash
+top
+```
+
+查看主机的各种状态参数，默认每5s刷新一次
+
+内容较多，此处可当工具查找
+
+**top命令经常用来监控linux的系统状况，是常用的性能分析工具，能够实时显示系统中各个进程的资源占用情况。**
+
+### **常用参数**
+
+top的使用方式 top [-d number] | top [-bnp]
+
+| 参数        | 含义                                          |
+| --------- | ------------------------------------------- |
+| -d number | number代表秒数，表示top命令显示的页面更新一次的间隔 (default=5s) |
+| -b        | 以批次的方式执行top                                 |
+| -n        | 与-b配合使用，表示需要进行几次top命令的输出结果                  |
+| -p        | 指定特定的pid进程号进行观察                             |
+
+**top命令显示的页面还可以输入以下按键执行相应的功能（注意大小写区分的）**
+
+| 参数  | 含义                      |
+| --- | ----------------------- |
+| ？   | 显示在top当中可以输入的命令         |
+| P   | 以CPU的使用资源排序显示           |
+| M   | 以内存的使用资源排序显示            |
+| N   | 以pid排序显示                |
+| T   | 由进程使用的时间累计排序显示          |
+| k   | 给某一个pid一个信号,可以用来杀死进程(9) |
+| r   | 给某个pid重新定制一个nice值（即优先级) |
+| q   | 退出top（用ctrl+c也可以退出top）  |
+
+### **top各输出参数含义**
+
+```bash
+top - 15:23:39 up 7 days,  7:57,  2 users,  load average: 0.00, 0.01, 0.00
+Tasks: 249 total,   1 running, 248 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.1 us,  0.2 sy,  0.0 ni, 99.8 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st 
+MiB Mem :   7894.1 total,    367.4 free,   5022.1 used,   2813.0 buff/cache     
+MiB Swap:   2048.0 total,   2047.7 free,      0.3 used.   2872.0 avail Mem 
+
+    PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND                                                 
+  81232 root      20   0  315932   9472   7936 S   0.3   0.1   2:52.54 vmtoolsd                                                
+  96087 root      20   0       0      0      0 I   0.3   0.0   0:02.13 kworker/3:2-events                                      
+  96214 haxlock   20   0   15124   7088   5120 S   0.3   0.1   0:00.17 sshd                                                    
+  96302 haxlock   20   0   11944   5888   3712 R   0.3   0.1   0:00.02 top                                                     
+      1 root      20   0   22624  13696   9472 S   0.0   0.2   1:22.07 systemd                                                 
+      2 root      20   0       0      0      0 S   0.0   0.0   0:00.89 kthreadd         
+```
+
+#### 一、top前五条信息解释
+
+```bash
+top - 15:23:39 up 7 days,  7:57,  2 users,  load average: 0.00, 0.01, 0.00
+```
+
+| 内容                             | 含义                                            |
+| ------------------------------ | --------------------------------------------- |
+| 14:49:28                       | 表示当前时间                                        |
+| up 1:33                        | 系统远行时间，格式为时：分                                 |
+| 1 user                         | 当前登陆用户数                                       |
+| load average: 0.00, 0.00, 0.00 | 系统负载，即任务队列的平均长度。 三个数值分别为 1分钟、5分钟、15分钟前到现在的平均值 |
+
+```bash
+Tasks: 249 total,   1 running, 248 sleeping,   0 stopped,   0 zombi
+```
+
+| 内容              | 含义       |
+| --------------- | -------- |
+| Tasks: 80 total | 进程总数     |
+| 2 running       | 正在运行的进程数 |
+| 78 sleeping     | 睡眠的进程数   |
+| 0 stopped       | 停止的进程数   |
+| 0 zombie        | 僵尸进程数    |
+
+```bash
+%Cpu(s):  0.1 us,  0.2 sy,  0.0 ni, 99.8 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 s
+```
+
+
 
 
