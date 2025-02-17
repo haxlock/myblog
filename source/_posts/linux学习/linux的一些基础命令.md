@@ -1022,7 +1022,6 @@ haxlock@root:~$ ps -f
 UID          PID    PPID  C STIME TTY          TIME CMD
 haxlock    96215   96214  0 14:49 pts/0    00:00:00 -bash
 haxlock    96232   96215 99 14:50 pts/0    00:00:00 ps -f
-
 ```
 
 - UID:进程所属的用户ID
@@ -1056,8 +1055,6 @@ kill [-9] 进程ID
 ```
 
 其中 **-9** 代表强制关闭
-
-
 
 ## top 主机状态详解
 
@@ -1142,6 +1139,97 @@ Tasks: 249 total,   1 running, 248 sleeping,   0 stopped,   0 zombi
 %Cpu(s):  0.1 us,  0.2 sy,  0.0 ni, 99.8 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 s
 ```
 
+| 内容       | 含义                                |
+| -------- | --------------------------------- |
+| 0.0%us   | 用户空间占用CPU百分比                      |
+| 0.0%sy   | 内核空间占用CPU百分比                      |
+| 0.0%ni   | 用户进程空间内改变过优先级的进程占用CPU百分比          |
+| 100.0%id | 空闲CPU百分比                          |
+| 0.0%wa   | 等待输入输出的CPU时间百分比                   |
+| 0.0%hi   | 硬中断（Hardware IRQ）占用CPU的百分比        |
+| 0.0%si   | 软中断（Software Interrupts）占用CPU的百分比 |
+| 0.0 st   | 用于有虚拟cpu的情况，用来指示被虚拟机偷掉的cpu时间      |
 
+```bash
+Mem: 1922488k total, 406936k used, 1515552k free, 11940k buffers
+```
 
+| 内容             | 含义         |
+| -------------- | ---------- |
+| 1922488k total | 物理内存总量     |
+| 406936k used   | 使用的物理内存总量  |
+| 1515552k free  | 空闲内存总量     |
+| 11940k buffers | 用作内核缓存的内存量 |
 
+```bash
+Swap: 835576k total, 0k used, 835576k free, 111596k cached
+```
+
+| 内容             | 含义       |
+| -------------- | -------- |
+| 835576k total  | 交换区总量    |
+| 0k used        | 使用的交换区总量 |
+| 835576k free   | 空闲交换区总量  |
+| 111596k cached | 缓冲的交换区总量 |
+
+#### 二、进程信息
+
+| 列名      | 含义                                        |
+| ------- | ----------------------------------------- |
+| PID     | 进程id                                      |
+| USER    | 进程所有者的用户名                                 |
+| PR      | 优先级                                       |
+| NI      | nice值。负值表示高优先级，正值表示低优先级                   |
+| VIRT    | 进程使用的虚拟内存总量，单位kb。VIRT=SWAP+RES            |
+| RES     | 进程使用的、未被换出的物理内存大小，单位kb。RES=CODE+DATA      |
+| SHR     | 共享内存大小，单位kb                               |
+| S       | 进程状态。D=不可中断的睡眠状态 R=运行 S=睡眠 T=跟踪/停止 Z=僵尸进程 |
+| %CPU    | 上次更新到现在的CPU时间占用百分比                        |
+| %MEM    | 进程使用的物理内存百分比                              |
+| TIME+   | 进程使用的CPU时间总计，单位1/100秒                     |
+| COMMAND | 命令名/命令行                                   |
+
+## 环境变量
+
+一系列命令本质上就是一个个可执行文件。
+
+例如：cd本体就是/usr/bin/cd这个文件下的文件
+
+查看当前环境变量：
+
+```bash
+env
+```
+
+### PATH
+
+```bash
+haxlock@root:~$ env | grep PATH
+CLASSPATH=.:/usr/local/jdk21/lib
+PATH=.:/usr/local/jdk21/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+```
+
+可以得到这么一些键值对，其实从本以上来理解，查询环境变量，本就是通过在**PATH键对应的值**中去查找相应的命令环境
+
+会在值中挨个去搜索环境变量的值，直到寻找到相应的内容。
+
+### $符号
+
+$是用于取"变量"的值。
+
+取得环境变量的值可以通过语法：$来获得
+
+例如：
+
+```bash
+haxlock@root:~$ echo $PATH
+.:/usr/local/jdk21/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+```
+
+### 作用
+
+如果你给你自己开发的程序记录在环境变量中，那么也可以通过你自己设定的命令行来快速地执行这个环境变量
+
+#### 自行设置方法：
+
+- 临时设置：语法：export 变量名称=变量值
