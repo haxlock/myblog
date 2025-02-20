@@ -5,7 +5,7 @@ tags: linux
 categories:
 
 - [服务器]
-- [后端]
+- [运维]
 - [linux] 
 
 ---
@@ -21,7 +21,9 @@ PATH=.:/usr/local/jdk21/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/s
 可以得到这么一些键值对，其实从本以上来理解，查询环境变量，本就是通过在**PATH键对应的值**中去查找相应的命令环境
 
 会在值中挨个去搜索环境变量的值，直到寻找到相应的内容。
+
 <!-- more -->
+
 ### $符号
 
 $是用于取"变量"的值。
@@ -50,6 +52,7 @@ haxlock
 ```
 
 - 永久生效
+
 - - 针对当前用户生效，配置在当前用户地： ~/ .bashrc中
   
   - 针对所有用户生效，配置在系统的： /etc/profile文件中
@@ -60,7 +63,6 @@ haxlock
 vim ~/ .bashrc
 # source使得环境变量生效
 source .bashrc
-
 ```
 
 ## Linux上传和下载
@@ -94,8 +96,6 @@ rz
 ```
 
 选择您需要上传的目录即可
-
-
 
 ## 压缩与解压
 
@@ -154,5 +154,3 @@ tar -zxvf test.tar.gz -C /home/test
 > - -z建议在开头
 > 
 > - -C建议单独使用
-
-

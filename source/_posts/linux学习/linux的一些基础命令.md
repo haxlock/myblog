@@ -4,7 +4,7 @@ date: 2025/2/10 11:25:00
 tags: linux
 categories: 
 - [服务器]
-- [后端]
+- [运维]
 - [linux]
 ---
 
