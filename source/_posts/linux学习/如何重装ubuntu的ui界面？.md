@@ -1,5 +1,4 @@
 ---
-
 title:如何卸载/重装ubuntu的桌面界面？
 date: 2025/2/26
 tags: linux
@@ -82,8 +81,6 @@ sudo apt autoremove
 
 重启进入系统后，如果看到是终端形式，那应该就是卸载成功了。
 
-
-
 或者通过以下命令：
 
 ```bash
@@ -111,5 +108,3 @@ sudo systemctl set-default graphical.target
 ```bash
 sudo reboot
 ```
-
-
