@@ -1,5 +1,5 @@
 ---
-title:如何卸载/重装ubuntu的桌面界面？
+title: 如何卸载/重装ubuntu的桌面界面？
 date: 2025/2/26
 tags: linux
 categories:
@@ -14,8 +14,10 @@ categories:
 
 Ubuntu 使用 **systemd** 管理系统服务，图形界面通常由 **gdm3** 或 **lightdm** 管理。你可以禁用图形界面服务，使系统开机后直接进入命令行。
 
+<!-- more -->
+
 ## 禁用`gdm3`(假设你是GNOME桌面)
-<!-- !more -->
+
 - 停止当前运行的图形界面服务：
 
 ```bash
