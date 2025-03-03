@@ -10,7 +10,6 @@ categories:
 
 ---
 
-<!-- more -->
 
 # 解决办法
 
@@ -21,6 +20,8 @@ categories:
 - 点击`ubuntu on xorty`
 
 - 登录进去再进行运行即可
+
+<!-- more -->
 
 # 主要原因分析
 
