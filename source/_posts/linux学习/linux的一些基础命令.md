@@ -854,10 +854,6 @@ u=rwx,g=rwx,o=rx
 
 更通俗的来说，就是指的是user呗拿掉的权限。例如如果是022,那么user没有被拿掉任何权限，然而group和others的权限被拿掉了`w`这个权限。
 
-
-
-
-
 ## linux各种实用命令
 
 ### 基本
@@ -904,7 +900,9 @@ systemctl控制软件、服务的启停，开机自启
 
 - systemctl status 查看状态
 
-## 软链接
+## ln 软链接(link)和硬链接
+
+### 软连接( **Symbolic Link，符号链接**)
 
 简单来说类似于windows中的快捷方式
 
@@ -929,6 +927,39 @@ haxlock@ubuntu:~$ ls
 1panel-v1.10.24-lts-linux-amd64  apt  bt-uninstall.sh  test
 haxlock@ubuntu:~$ 
 ```
+
+### 硬链接
+
+硬链接是文件系统中同一个文件的多个名称（别名）。它直接指向文件的inode，而不是文件的内容或路径。
+
+- **特点**：
+  
+  - 硬链接与原始文件共享相同的inode号，因此它们指向同一个数据块。
+  
+  - 删除原始文件后，硬链接仍然可以访问文件数据，因为inode和数据块仍然存在。
+  
+  - 硬链接不能跨文件系统（即不能链接到不同分区或磁盘上的文件）。
+  
+  - 硬链接不能链接到目录（只有超级用户可以创建目录的硬链接，但不推荐使用）。
+
+```bash
+ln [源文件] [硬链接文件]
+```
+
+```bash
+ls -li
+# 结果如下
+200917 -rw-rw-r--  2 haxlock haxlock        101  3月  6 20:27 test
+200917 -rw-rw-r--  2 haxlock haxlock        101  3月  6 20:27 test.txt
+```
+
+可见inode号相同，都指向同一个block。
+
+### Tips
+
+还记得第五章当中，我们提到的 /tmp 这个目录是干嘛用的吗？是给大家作为暂存盘用的
+啊！ 所以，您会发现，过去我们在进行测试时，都会将数据移动到 /tmp 下面去练习～ 嘿
+嘿！因此，有事没事，记得将 /tmp 下面的一些怪异的数据清一清先！
 
 ## date,cal,bc
 
@@ -1665,8 +1696,6 @@ haxlock@Inspiron-3443:~$ dirname /etc/systemd/network
 /etc/systemd
 ```
 
-
-
 ### 设置文件隐藏属性
 
 #### chatter
@@ -1705,7 +1734,6 @@ haxlock@Inspiron-3443:~$ sudo chattr +i test
 
 ```bash
 haxlock@Inspiron-3443:~$ sudo chattr -i test 
-
 ```
 
 #### lsattr (显示文件隐藏属性)
@@ -1759,8 +1787,6 @@ haxlock@Inspiron-3443:~$ ls -ld /usr/bin/passwd
 
 - 当使用者在该目录下创建文件或目录时，仅有自己与 root 才有权力删除该文件
 
-
-
 - SUID/SGID/SBIT 权限设置
 
 - - 4 为 SUID
@@ -1772,3 +1798,38 @@ haxlock@Inspiron-3443:~$ ls -ld /usr/bin/passwd
 ### file
 
 使用file可以观察文件的基本数据类型
+
+### df与du
+
+#### df
+
+列出文件系统的整体磁盘使用量
+
+```bash
+df [-ahikHTm] [file]
+选项与参数：
+-a ：列出所有的文件系统，包括系统特有的 /proc 等文件系统；
+-k ：以 KBytes 的容量显示各文件系统；
+-m ：以 MBytes 的容量显示各文件系统；
+-h ：以人们较易阅读的 GBytes, MBytes, KBytes 等格式自行显示；
+-H ：以 M=1000K 取代 M=1024K 的进位方式；
+-T ：连同该 partition 的 filesystem 名称 （例如 xfs） 也列出；
+-i ：不用磁盘容量，而以 inode 的数量来显示
+```
+
+#### du
+
+评估文件系统的磁盘使用量（常用在推估目录所占容量）
+
+```bash
+du [-ahskm] [file]
+选项与参数：
+-a ：列出所有的文件与目录容量，因为默认仅统计目录下面的文件量而已。
+-h ：以人们较易读的容量格式 （G/M） 显示；
+-s ：列出总量而已，而不列出每个各别的目录占用容量；
+-S ：不包括子目录下的总计，与 -s 有点差别。
+-k ：以 KBytes 列出容量显示；
+-m ：以 MBytes 列出容量显示；
+```
+
+**与 df 不一样的是，du 这个指令其实会直接到文件系统内去搜寻所有的文件数据**
