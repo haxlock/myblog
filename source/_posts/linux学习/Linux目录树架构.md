@@ -1,5 +1,4 @@
 --- 
-
 title: 如何卸载/重装ubuntu的桌面界面？
 date: 2025/3/4
 tags: linux
@@ -8,12 +7,13 @@ categories:
 - [服务器]
 - [运维]
 - [linux]
-
 ---
 
 # Linux根目录
 
 - 目录树的起始点是`/,root`
+- 
+<!-- more -->
 
 - 每隔目录不知能使用本地端的partition的文件系统，也可以使用网络上的filesystem.例如可以利用NFS服务器挂在某特定的目录
 
