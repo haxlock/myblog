@@ -7,7 +7,6 @@ categories:
 - [服务器]
 - [运维]
 - [linux]
-
 ---
 
 # X window与文字模式的切换

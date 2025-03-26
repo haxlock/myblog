@@ -1799,7 +1799,7 @@ haxlock@Inspiron-3443:~$ ls -ld /usr/bin/passwd
 
 使用file可以观察文件的基本数据类型
 
-### df与du
+### 磁盘状态与信息
 
 #### df
 
@@ -1834,15 +1834,437 @@ du [-ahskm] [file]
 
 **与 df 不一样的是，du 这个指令其实会直接到文件系统内去搜寻所有的文件数据**
 
-### lsblk(list block device)
+#### lsblk(list block device)
 
 ```bash
 lsblk [-dfimpt] [device]
 选项与参数：
 -d ：仅列出磁盘本身，并不会列出该磁盘的分区数据
--f ：同时列出该磁盘内的文件系统名称
+-f ：同时列出该磁盘内的文件系统名称(UUID)
 -i ：使用 ASCII 的线段输出，不要使用复杂的编码 （再某些环境下很有用）
 -m ：同时输出该设备在 /dev 下面的权限数据 （rwx 的数据）
 -p ：列出该设备的完整文件名！而不是仅列出最后的名字而已。
 -t ：列出该磁盘设备的详细数据，包括磁盘伫列机制、预读写的数据量大小等
+```
+
+#### blkid (block device uuid)列出设备的UUID参数
+
+虽然 lsblk 已经可以使用 -f 来列出文件系统与设备的 UUID 数据，不过，我还是比较习惯直接使用 blkid 来找出设备的 UUID 喔！ 什么是 UUID 呢？UUID 是全域单一识别码（universally unique identifier），Linux 会将系统内所有的设备都给予一个独一无二的识别码， 这个识别码就可以拿来作为挂载或者是使用这个设备/文件系统之用了。
+
+```bash
+haxlock@Inspiron-3443:~$ blkid
+/dev/sda3: UUID="10ebc8c3-840e-422e-9a87-5dac952938f2" TYPE="swap" PARTUUID="1223a16e-1ba8-4273-b53e-b7735d847652"
+/dev/sda1: UUID="c0d03455-f0ba-49bd-a99b-12d26eeeec21" BLOCK_SIZE="4096" TYPE="ext4" PARTUUID="1041c476-2bcb-4e9e-953a-72452be99562"
+```
+
+#### part 列出磁盘的分区表类型与分区信息
+
+```bash
+parted /dev/sda1 print
+型号：ATA GLOWAY STK128GS3 (scsi)
+磁盘 /dev/sda: 128GB
+扇区大小 (逻辑/物理)：512B/512B
+分区表：gpt
+磁盘标志：
+
+编号  起始点  结束点  大小    文件系统        名称  标志
+ 1    1049kB  50.0GB  50.0GB  ext4
+ 2    50.0GB  51.1GB  1127MB  fat32                 启动, esp
+ 3    51.1GB  55.1GB  4000MB  linux-swap(v1)        交换
+ 4    55.1GB  128GB   72.9GB  ext4
+```
+
+> **关于为什么明明是sata硬盘，但是识别出来是scsi?**
+> 
+> 这是因为Linux内核将SATA硬盘视为SCSI设备，使用相同的驱动框架（`libata`）来管理它们。本质上并无影响。
+
+### 磁盘分区：gdisk/fdisk
+
+> 请注意：MRB请用fdisk分区，GPT请用gdisk分区。
+
+#### gdisk
+
+##### 增加分区
+
+```bash
+haxlock@Inspiron-3443:~$ sudo gdisk /dev/sda
+GPT fdisk (gdisk) version 1.0.10
+
+Partition table scan:
+  MBR: protective
+  BSD: not present
+  APM: not present
+  GPT: present
+
+Found valid GPT with protective MBR; using GPT.
+
+Command (? for help): ?
+b    back up GPT data to a file
+c    change a partition's name
+d    delete a partition
+i    show detailed information on a partition
+l    list known partition types
+n    add a new partition
+o    create a new empty GUID partition table (GPT)
+p    print the partition table
+q    quit without saving changes
+r    recovery and transformation options (experts only)
+s    sort partitions
+t    change a partition's type code
+v    verify disk
+w    write table to disk and exit
+x    extra functionality (experts only)
+?    print this menu
+```
+
+你应该要通过 lsblk 或 blkid 先找到磁盘，再用 parted /dev/xxx print 来找出内部的分区表类型，之后才用 gdisk 或 fdisk 来操作系统。
+
+这个 gdisk 只有 root 才能执行，此外，请注意，使用的“设备文件名”请不要加上数字，因为partition 是针对“整个磁盘设备”而不是某个 partition 呢！所以执行“ gdisk /dev/sda1 ” 就会发生错误啦！要使用 gdisk /dev/vda 才对！
+
+> Tips 再次强调，你可以使用 gdisk 在您的磁盘上面胡搞瞎搞的进行实际操作，都不打紧，但是请“千万记住，不要按下 w 即可！”离开的时候按下 q 就万事无妨啰！ 此外，不要在 MBR分区上面使用 gdisk，因为如果指令按错，恐怕你的分区纪录会全部死光光！也不要在 GPT上面使用 fdisk 啦！切记切记！
+
+但是，当你执行完成后，如果你执行的是系统所在盘，Linux此时正在使用这个盘的话，你执行
+
+```bash
+cat /proc/partitons
+```
+
+查看分区时候，你会发现他没有，这是因为正在使用时候，系统无法载入心得分区表。
+
+此时有两种：
+
+1. 重启
+
+2. 通过partprobe指令处理
+
+```bash
+haxlock@Inspiron-3443:~$ sudo partprobe -s /dev/sdb
+/dev/sdb: gpt partitions 1 2 3 4
+```
+
+##### 删除分区
+
+很简单
+
+```bash
+gdisk /dev/sda
+Command （? for help）: d
+Partition number （1-6）: 6
+```
+
+就没了。
+
+但是千万不要删除正在使用中的分区，否则影响系统稳定性
+
+##### fdisk
+
+使用方法与gdisk基本一样，使用m作为提示符
+
+#### 格式化分区
+
+xfs分区指令：
+
+```bash
+mkfs.xfs [-b bsize] [-d parms] [-i parms] [-l parms] [-L label] [-f] \
+[-r parms] 设备名称
+
+
+选项与参数：
+相关单位：下面只要谈到“数值”时，没有加单位则为 Bytes 值，可以用 k,m,g,t,p （小写）等来解释
+比较特殊的是 s 这个单位，它指的是 sector 的“个数”喔！
+-b ：后面接的是 block 容量，可由 512 到 64k，不过最大容量限制为 Linux 的 4k 喔！
+-d ：后面接的是重要的 data section 的相关参数值，主要的值有：
+agcount=数值 ：设置需要几个储存群组的意思（AG），通常与 CPU 有关
+agsize=数值
+：每个 AG 设置为多少容量的意思，通常 agcount/agsize 只选一个设置即可
+file
+：指的是“格式化的设备是个文件而不是个设备”的意思！（例如虚拟磁盘）
+size=数值
+：data section 的容量，亦即你可以不将全部的设备容量用完的意思
+su=数值
+：当有 RAID 时，那个 stripe 数值的意思，与下面的 sw 搭配使用
+sw=数值
+：当有 RAID 时，用于储存数据的磁盘数量（须扣除备份碟与备用碟）
+sunit=数值
+：与 su 相当，不过单位使用的是“几个 sector（512Bytes大小）”的意思
+swidth=数值
+：就是 su*sw 的数值，但是以“几个 sector（512Bytes大小）”来设置
+-f ：如果设备内已经有文件系统，则需要使用这个 -f 来强制格式化才行！
+-i ：与 inode 有较相关的设置，主要的设置值有：
+size=数值
+：最小是 256Bytes 最大是 2k，一般保留 256 就足够使用了！
+internal=[0&#124;1]：log 设备是否为内置？默认为 1 内置，如果要用外部设备，使用下面设置
+logdev=device ：log 设备为后面接的那个设备上头的意思，需设置 internal=0 才可！
+size=数值
+：指定这块登录区的容量，通常最小得要有 512 个 block，大约 2M 以上才行！
+-L ：后面接这个文件系统的标头名称 Label name 的意思！
+-r ：指定 realtime section 的相关设置值，常见的有：
+extsize=数值 ：就是那个重要的 extent 数值，一般不须设置，但有 RAID 时，
+最好设置与 swidth 的数值相同较佳！最小为 4K 最大为 1G 。
+```
+
+ext4分区指令：
+
+```bash
+mkfs.ext4
+用法：mkfs.ext4 [-c|-l 文件名] [-b 块大小] [-C 簇大小]
+    [-i 每inode的字节数] [-I inode大小] [-J 日志选项]
+    [-G 弹性组大小] [-N inode数] [-d 根目录]
+    [-m 保留块所占百分比] [-o 创始系统名]
+    [-g 每组的块数] [-L 卷标] [-M 上一次挂载点]
+    [-O 特性[,...]] [-r 文件系统版本] [-E 扩展选项[,...]]
+    [-t 文件系统类型] [-T 用法类型] [-U UUID] [-e 错误行为][-z 撤销文件]
+    [-jnqvDFKSV] 设备 [块数]
+```
+
+#### 挂载磁盘
+
+##### mount
+
+```bash
+mount
+选项与参数：
+-a ：依照配置文件 [/etc/fstab](../Text/index.html#fstab) 的数据将所有未挂载的磁盘都挂载上来
+-l ：单纯的输入 mount 会显示目前挂载的信息。加上 -l 可增列 Label 名称！
+-t ：可以加上文件系统种类来指定欲挂载的类型。常见的 Linux 支持类型有：xfs, ext3, ext4,
+reiserfs, vfat, iso9660（光盘格式）, nfs, cifs, smbfs （后三种为网络文件系统类型）
+-n ：在默认的情况下，系统会将实际挂载的情况实时写入 /etc/mtab 中，以利其他程序的运行。
+但在某些情况下（例如单人维护模式）为了避免问题会刻意不写入。此时就得要使用 -n 选项。
+-o ：后面可以接一些挂载时额外加上的参数！比方说帐号、密码、读写权限等：
+async, sync:
+此文件系统是否使用同步写入 （sync） 或非同步 （async） 的
+内存机制，请参考[文件系统运行方式](../Text/index.html#harddisk-filerun)。默认为 async。
+atime,noatime: 是否修订文件的读取时间（atime）。为了性能，某些时刻可使用 noatime
+ro, rw:
+挂载文件系统成为只读（ro） 或可读写（rw）
+auto, noauto: 允许此 filesystem 被以 mount -a 自动挂载（auto）
+dev, nodev:
+是否允许此 filesystem 上，可创建设备文件？ dev 为可允许
+suid, nosuid: 是否允许此 filesystem 含有 suid/sgid 的文件格式？
+exec, noexec: 是否允许此 filesystem 上拥有可执行 binary 文件？
+user, nouser: 是否允许此 filesystem 让任何使用者执行 mount ？一般来说，
+mount 仅有 root 可以进行，但下达 user 参数，则可让
+一般 user 也能够对此 partition 进行 mount 。
+defaults:
+默认值为：rw, suid, dev, exec, auto, nouser, and async
+remount:
+重新挂载，这在系统出错，或重新更新参数时，很有用！
+```
+
+##### umount
+
+```bash
+[root@study ~]# umount [-fn] 设备文件名或挂载点
+选项与参数：
+-f ：强制卸载！可用在类似网络文件系统 （NFS） 无法读取到的情况下；
+-l ：立刻卸载文件系统，比 -f 还强！
+-n ：不更新 /etc/mtab 情况下卸载。
+```
+
+#### 磁盘/文件系统参数修订
+
+如果需要修改目前文件系统的相关信息，例如Label name或者journal的参数，and so on。就需要用到下列指令
+
+##### mknod
+
+Linux下的设备都用文件来代表，每个文件都通过文件的major与minor数值来替代的。因此，可以说major与minor的数值是有特殊含义的。
+
+例如：
+
+```bash
+haxlock@Inspiron-3443:~$ ll /dev/sda*
+brw-rw---- 1 root disk 8, 0  3月  9 13:47 /dev/sda
+brw-rw---- 1 root disk 8, 1  3月  9 13:47 /dev/sda1
+brw-rw---- 1 root disk 8, 2  3月  9 13:47 /dev/sda2
+brw-rw---- 1 root disk 8, 3  3月  9 13:47 /dev/sda3
+brw-rw---- 1 root disk 8, 4  3月  9 13:47 /dev/sda4
+```
+
+8就是主要设备代码(Major)，而0~4代表是次要设备代码(Minor),Linux核心认识的设备数据就是通过这两个数值来决定的
+
+用法：
+
+```bash
+[root@study ~]# mknod 设备文件名 [bcp] [Major] [Minor]
+选项与参数：
+设备种类：
+b ：设置设备名称成为一个周边储存设备文件，例如磁盘等；
+c ：设置设备名称成为一个周边输入设备文件，例如鼠标/键盘等；
+p ：设置设备名称成为一个 FIFO 文件；
+Major ：主要设备代码；
+Minor ：次要设备代码；
+```
+
+##### xfs_admin 修改XFS文件系统的UUID和Lable name
+
+在初始格式化时候忘记加上标头名称，如果想再次加入时候，不需要重复格式化，直接使用此命令即可。
+
+```bash
+[root@study ~]# xfs_admin [-lu] [-L label] [-U uuid] 设备文件名
+选项与参数：
+-l ：列出这个设备的 label name
+-u ：列出这个设备的 UUID
+-L ：设置这个设备的 Label name
+-U ：设置这个设备的 UUID 喔！
+范例：设置 /dev/vda4 的 label name 为 vbird_xfs，并测试挂载
+[root@study ~]# xfs_admin -L vbird_xfs /dev/vda4
+writing all SBs
+new label = "vbird_xfs"
+# 产生新的 LABEL 名称啰！
+[root@study ~]# xfs_admin -l /dev/vda4
+label = "vbird_xfs"
+[root@study ~]# mount LABEL=vbird_xfs /data/xfs/
+范例：利用 uuidgen 产生新 UUID 来设置 /dev/vda4，并测试挂载
+[root@study ~]# umount /dev/vda4
+# 使用前，请先卸载！
+[root@study ~]# uuidgen
+e0fa7252-b374-4a06-987a-3cb14f415488
+# 很有趣的指令！可以产生新的 UUID 喔！
+[root@study ~]# xfs_admin -u /dev/vda4
+UUID = e0a6af55-26e7-4cb7-a515-826a8bd29e90
+[root@study ~]# xfs_admin -U e0fa7252-b374-4a06-987a-3cb14f415488 /dev/vda4
+Clearing log and setting UUID
+writing all SBs
+new UUID = e0fa7252-b374-4a06-987a-3cb14f415488
+[root@study ~]# mount UUID=e0fa7252-b374-4a06-987a-3cb14f415488 /data/xfs
+```
+
+##### tune2fs 修改 ext4 的 label name 与 UUID
+
+```bash
+[root@study ~]# tune2fs [-l] [-L Label] [-U uuid] 设备文件名
+选项与参数：
+-l ：类似 dumpe2fs -h 的功能～将 superblock 内的数据读出来～
+-L ：修改 LABEL name
+-U ：修改 UUID 啰！
+范例：列出 /dev/vda5 的 label name 之后，将它改成 vbird_ext4
+[root@study ~]# dumpe2fs -h /dev/vda5 &#124; grep name
+dumpe2fs 1.42.9 （28-Dec-2013）
+Filesystem volume name:
+<none>
+# 果然是没有设置的！
+[root@study ~]# tune2fs -L vbird_ext4 /dev/vda5
+[root@study ~]# dumpe2fs -h /dev/vda5 &#124; grep name
+Filesystem volume name:
+vbird_ext4
+[root@study ~]# mount LABEL=vbird_ext4 /data/ext4
+```
+
+#### 开机挂载磁盘
+
+路径在：/ect/fstab下
+
+```bash
+cat /etc/fstab
+# 设备/UUID                                 挂载点                      文件系统     文件系统参数 [dump] []fsck
+UUID=b1756329-9e24-40b4-be50-1164029b07eb  /home/haxlock/Applications  ext4  defaults  0  2
+```
+
+其中：
+
+- dump: dump 是一个用来做为备份的指令，不过现在有太多的备份方案了，所以这个项目可以不要理会啦！直接输入 0 就好了！
+
+- 早期开机的流程中，会有一段时间去检验本机的文件系统，看看文件系统是否完整
+  （clean）。 不过这个方式使用的主要是通过 fsck 去做的，我们现在用的 xfs 文件系统就没有办法适用，因为 xfs 会自己进行检验，不需要额外进行这个动作！所以直接填 0 就好了。
+
+> /etc/fstab 是开机时的配置文件，不过，实际 filesystem 的挂载是记录到 /etc/mtab 与/proc/mounts 这两个文件当中的。每次我们在更动 filesystem 的挂载时，也会同时更动这两个文件喔！但是，万一发生你在 /etc/fstab 输入的数据错误，导致无法顺利开机成功，而进入单人维护模式当中，那时候的 / 可是 read only 的状态，当然你就无法修改 /etc/fstab ，也无法更新 /etc/mtab 啰～那怎么办？没关系，可以利用下面这一招：
+> 
+> ```bash
+> [root@study ~]# mount -n -o remount,rw /
+> ```
+
+#### 创建swap分区
+
+1. 分区：gdisk
+
+2. 格式化: mkswap
+
+3. 使用: swapon 设备名
+
+4. 验证观察
+   
+   **分区**
+
+```bash
+[root@study ~]# gdisk /dev/vda
+Command （? for help）: n
+Partition number （6-128, default 6）:
+First sector （34-83886046, default = 69220352） or {+-}size{KMGTP}:
+Last sector （69220352-83886046, default = 83886046） or {+-}size{KMGTP}: +512M
+Current type is 'Linux filesystem'
+Hex code or GUID （L to show codes, Enter = 8300）: 8200
+Changed type of partition to 'Linux swap'
+Command （? for help）: p
+Number Start （sector）
+6
+69220352
+End （sector） Size
+70268927
+512.0 MiB
+Code Name
+8200 Linux swap
+# 重点就是产生这东西！
+Command （? for help）: w
+Do you want to proceed? （Y/N）: y
+[root@study ~]# partprobe
+[root@study ~]# lsblk
+NAME
+MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+vda
+252:0
+0
+40G 0 disk
+.....（中间省略）.....
+`-vda6
+252:6
+0 512M 0 part
+# 确定这里是存在的才行！
+```
+
+**创建swap格式化**
+
+```bash
+mkswap /dev/vda6
+Setting up swapspace version 1, size = 524284 KiB
+no label, UUID=6b17e4ab-9bf9-43d6-88a0-73ab47855f9d
+blkid /dev/vda6
+/dev/vda6: UUID="6b17e4ab-9bf9-43d6-88a0-73ab47855f9d" TYPE="swap"
+```
+
+**使用并观察**
+
+```bash
+# swapon来使用swap分区
+swapon /dev/vda6
+
+# 列出swap设备有哪些
+haxlock@Inspiron-3443:~$ swapon -s
+Filename                Type        Size        Used        Priority
+/dev/sda3                               partition    3906556        410368        -2
+
+
+nano /etc/fstab
+UUID="6b17e4ab-9bf9-43d6-88a0-73ab47855f9d" swap swap defaults 0 0
+```
+
+写配置文件，开机自动挂载
+
+#### parted分区
+
+parted 可以直接在一行命令行就完成分区，是一个非常好用的指令！它常用的语法如下：
+
+```bash
+[root@study ~]# parted [设备] [指令 [参数]]
+选项与参数：
+指令功能：
+新增分区：mkpart [primary&#124;logical&#124;extended] [ext4&#124;vfat&#124;xfs] 开始 结束
+显示分区：print
+删除分区：rm [partition]
+```
+
+如果需要所有单位都统一：
+
+```bash
+parted /dev/vda unit mb print
+# 统一单位为mb
 ```

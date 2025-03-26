@@ -12,8 +12,8 @@ categories:
 # Linux根目录
 
 - 目录树的起始点是`/,root`
-- 
-<!-- more -->
+
+- <!-- more -->
 
 - 每隔目录不知能使用本地端的partition的文件系统，也可以使用网络上的filesystem.例如可以利用NFS服务器挂在某特定的目录
 
@@ -50,14 +50,9 @@ dr-xr-xr-x  13 root root     0  3月  4 13:28 sys
 drwxrwxrwt  23 root root 12288  3月  4 13:40 tmp
 drwxr-xr-x  12 root root  4096  8月 27  2024 usr
 drwxr-xr-x  15 root root  4096  2月 23 08:50 var
-
 ```
 
 克制
-
-
-
-
 
 ![](/home/haxlock/.config/marktext/images/2025-03-04-13-37-52-image.png)
 
@@ -96,5 +91,3 @@ drwxr-xr-x  15 root root  4096  2月 23 08:50 var
   - 密码失效日期
   
   - 账户失效日期
-
-
