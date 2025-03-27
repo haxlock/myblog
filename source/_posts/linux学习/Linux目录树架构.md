@@ -1,6 +1,5 @@
 --- 
-
-title: Linux目录文件结构学习
+title: Linux目录树架构
 date: 2025/3/4
 tags: linux
 categories:
@@ -8,7 +7,6 @@ categories:
 - [服务器]
 - [运维]
 - [linux]
-
 ---
 
 # Linux根目录
