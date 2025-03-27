@@ -1,4 +1,5 @@
 --- 
+
 title: Linux文件种类与扩展名
 date: 2025/3/4
 tags: linux
@@ -7,6 +8,7 @@ categories:
 - [服务器]
 - [运维]
 - [linux] 
+
 --- 
 
 # 参考：《鸟哥的Linux私房菜》

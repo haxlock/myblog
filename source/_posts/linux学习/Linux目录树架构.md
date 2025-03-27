@@ -1,4 +1,5 @@
 --- 
+
 title: 如何卸载/重装ubuntu的桌面界面？
 date: 2025/3/4
 tags: linux
@@ -7,6 +8,7 @@ categories:
 - [服务器]
 - [运维]
 - [linux]
+
 ---
 
 # Linux根目录

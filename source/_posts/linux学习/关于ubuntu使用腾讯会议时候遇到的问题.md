@@ -9,7 +9,6 @@ categories:
 - [linux]
 ---
 
-
 # 解决办法
 
 - 右上角注销
