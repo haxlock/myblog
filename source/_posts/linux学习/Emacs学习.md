@@ -12,6 +12,8 @@ categories:
 
 # Emacs 入门（一）为什么要学习Emacs？
 
+<!-- more -->
+
 Emacs 是一个文本编辑器系列，包含有多个分支，其中最主流的一支是 GNU Emacs，大多数情况下所说的 Emacs 都是指 GNU Emacs，本教程也使用 Emacs 指代 GNU Emacs。Emacs 这一名字最早来源于 “Editor MACroS”，后来也有人称它集合了五个主要功能键的首字母 Esc、Meta、Alt、Ctrl、Shift。
 
 
