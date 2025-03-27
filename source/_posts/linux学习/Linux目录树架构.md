@@ -1,9 +1,8 @@
---- 
+---
 title: Linux目录树架构
-date: 2025/3/4
+date: 2025/2/10 11:25:00
 tags: linux
-categories:
-
+categories: 
 - [服务器]
 - [运维]
 - [linux]
