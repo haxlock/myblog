@@ -1,6 +1,6 @@
 --- 
 
-title: 如何卸载/重装ubuntu的桌面界面？
+title: Linux目录文件结构学习
 date: 2025/3/4
 tags: linux
 categories:
