@@ -1,10 +1,9 @@
 ---
-title: 如何卸载/重装ubuntu的桌面界面？
-date: 2025/2/26
+title: 如何卸载或者重装ubuntu的ui界面？
+date: 2025/2.19
 tags: linux
 categories:
 
-- [服务器]
 - [运维]
 - [linux]
 ---
